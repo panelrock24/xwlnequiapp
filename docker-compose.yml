@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  node-backend:
+    build:
+      context: ./node-backend
+      dockerfile: Dockerfile
+    container_name: node-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    volumes:
+      - ./node-backend:/app
+    networks:
+      - backend-net
+
+  python-bot:
+    build:
+      context: ./python-bot
+      dockerfile: Dockerfile
+    container_name: python-bot
+    env_file:
+      - env
+    environment:
+      - SERVER_URL=http://node-backend:3000/setPage
+    volumes:
+      - ./python-bot:/app
+    depends_on:
+      - node-backend
+    networks:
+      - backend-net
+
+networks:
+  backend-net:
+    driver: bridge
