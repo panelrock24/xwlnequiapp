@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: node-backend
     ports:
-      - "3000:3000"
+      - "80:3000"
     environment:
       - PORT=3000
     volumes:
@@ -20,6 +20,8 @@ services:
       context: ./python-bot
       dockerfile: Dockerfile
     container_name: python-bot
+    ports:
+      - "5000:5000"
     env_file:
       - env
     environment:
